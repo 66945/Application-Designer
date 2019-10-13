@@ -68,6 +68,9 @@ public class Sprite {
     
     public void setScale(Point scl) {
         scale = scl;
+        
+        rScale = new Point(Math.abs(scale.x), Math.abs(scale.y));
+        
         detectionBounds.setX(position.x - (image.getWidth() * ((double) rScale.x / 100)) / 2);
         detectionBounds.setY(position.y - (image.getHeight() * ((double) rScale.y / 100)) / 2);
         

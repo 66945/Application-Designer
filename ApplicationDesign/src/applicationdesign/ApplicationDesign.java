@@ -34,6 +34,7 @@ public class ApplicationDesign extends Application {
         stageEdit = new StageEditor(600, 500, sprts);
         
         root.setLeft(stageEdit.getGroup());
+        stageEdit.getGroup().setFocusTraversable(true);
         //Delete that code after testing is done
         
         Scene scene = new Scene(root, 800, 500);
