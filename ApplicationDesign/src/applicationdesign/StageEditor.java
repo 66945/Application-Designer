@@ -65,8 +65,8 @@ public class StageEditor {
         
         root.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent e) {
-                Point clickPoint = new Point((int) e.getX(), (int) e.getY());
+            public void handle(MouseEvent event) {
+                Point clickPoint = new Point((int) event.getX(), (int) event.getY());
                 
                 for(Sprite sprite : sprites) {
                     if(sprite.pointInBounds(clickPoint))
@@ -85,7 +85,7 @@ public class StageEditor {
                 mousePoint = new Point((int) event.getX(), (int) event.getY());
                 
                 if(!currentAction.equals(ActionState.NONE)) {
-                    Sprite sprite = getSelectedSprite();
+                    Sprite sprite = Sprite.getSelectedSprite(sprites);
                     Point spritePoint = sprite.getPosition();
 
                     switch(currentAction){
@@ -123,13 +123,13 @@ public class StageEditor {
                     switch(event.getText()) {
                         case "m":
                             currentAction = ActionState.MOVE;
-                            Point spritePoint = getSelectedSprite().getPosition();
+                            Point spritePoint = Sprite.getSelectedSprite(sprites).getPosition();
                             freezePoint = new Point(mousePoint.x - spritePoint.x, 
                                     mousePoint.y - spritePoint.y);
                             break;
                         case "s":
                             currentAction = ActionState.SCALE;
-                            freezePoint = getSelectedSprite().getScale();
+                            freezePoint = Sprite.getSelectedSprite(sprites).getScale();
                             break;
                         default:
                             currentAction = ActionState.UNKNOWN;
@@ -153,17 +153,10 @@ public class StageEditor {
         renderStage();
     }
     
-    public Sprite getSelectedSprite() {
-        for(Sprite sprite : sprites) {
-            if(sprite.isSelected()) {
-                return sprite;
-            }
-        }
-        
-        return null;
-    }
-    
     public void renderStage() {
+        if(!root.focusedProperty().get())
+            root.requestFocus(); //Sets focus
+        //actual rendering
         context.clearRect(0, 0, width, height);
         
         for(Sprite sprite : sprites) {

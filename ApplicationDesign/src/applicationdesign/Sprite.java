@@ -6,6 +6,8 @@
 package applicationdesign;
 
 import java.awt.Point;
+import java.io.File;
+import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
@@ -14,12 +16,13 @@ import javafx.scene.shape.Rectangle;
  *
  * @author 66945
  */
-public class Sprite {
+public class Sprite {    
     Point position;
     Point scale;
     Point rScale;
     Image image;
     String name;
+    ArrayList<File> scripts;
     
     boolean selected;
     Rectangle detectionBounds;
@@ -31,6 +34,8 @@ public class Sprite {
         image = new Image(imagePath);
         
         selected = false;
+        
+        scripts = new ArrayList<>();
         
         detectionBounds = new Rectangle();
         
@@ -103,7 +108,31 @@ public class Sprite {
         return selected;
     }
     
+    public ArrayList<File> getScripts() {
+        return scripts;
+    }
+    
+    public void addScript(File script) {
+        scripts.add(script);
+    }
+    
+    public void removeScript(File script) {
+        scripts.remove(script);
+    }
+    
     public Rectangle getDetectionBounds(){
         return detectionBounds;
+    }
+    
+    //=============================================Static methods=================================================
+    
+    public static Sprite getSelectedSprite(ArrayList<Sprite> sprites) {
+        for(Sprite sprite : sprites) {
+            if(sprite.isSelected()) {
+                return sprite;
+            }
+        }
+        
+        return null;
     }
 }
